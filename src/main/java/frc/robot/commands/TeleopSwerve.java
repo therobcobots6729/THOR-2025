@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Swerve;
 //import frc.robot.subsystems.limelight;
-import frc.robot.subsystems.extendy;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -16,8 +15,6 @@ public class TeleopSwerve extends Command {
   private DoubleSupplier translationSup;
   private DoubleSupplier strafeSup;
   private DoubleSupplier rotationSup;
-  private extendy e_Extendy;
-  private double speed;
   private BooleanSupplier robotCentricSup;
   
 
@@ -26,11 +23,8 @@ public class TeleopSwerve extends Command {
       DoubleSupplier translationSup,
       DoubleSupplier strafeSup,
       DoubleSupplier rotationSup,
-      extendy e_Extendy,
-      BooleanSupplier robotCentricSup
-      ) {
+      BooleanSupplier robotCentricSup) {
     this.s_Swerve = s_Swerve;
-    this.e_Extendy = e_Extendy;
     addRequirements(s_Swerve);
 
     this.translationSup = translationSup;
@@ -43,12 +37,6 @@ public class TeleopSwerve extends Command {
   @Override
   public void execute() {
     /* Get Values, Deadband */
-    if (e_Extendy.elevatorHeight>6){
-      speed = .25;
-    }
-    else{
-      speed = 1;
-    }
     double translationVal =
         MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband);
     double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);
@@ -62,10 +50,9 @@ public class TeleopSwerve extends Command {
          else{*/
       s_Swerve.drive(
         new Translation2d(translationVal, strafeVal)
-            .times(Constants.Swerve.maxSpeed *speed ),
-        rotationVal * Constants.Swerve.maxAngularVelocity * speed,
-        false,
-       // !robotCentricSup.getAsBoolean(),
+            .times(Constants.Swerve.maxSpeed ),
+        rotationVal * Constants.Swerve.maxAngularVelocity * Constants.Swerve.crabTurn,
+        !robotCentricSup.getAsBoolean(),
         true);
     }}
 

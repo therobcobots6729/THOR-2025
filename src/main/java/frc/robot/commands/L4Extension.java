@@ -32,12 +32,12 @@ public class L4Extension extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if( e_Extendy.getElevatorHeight()< 29){
-      pid = e_Extendy.elevatorPID.calculate(e_Extendy.extendyPosition.getDistance(), 29);
+    if( e_Extendy.getElevatorHeight()< 27.75){
+      pid = e_Extendy.elevatorPID.calculate(e_Extendy.extendyPosition.getDistance(), 27.75);
      
    }
    else{
-     pid = e_Extendy.downPID.calculate(e_Extendy.extendyPosition.getDistance(),29);
+     pid = e_Extendy.downPID.calculate(e_Extendy.extendyPosition.getDistance(),27.75);
      
    }
    feedForward = e_Extendy.elevatorFeedForward.calculate(0,0);
@@ -58,8 +58,7 @@ public class L4Extension extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(29-e_Extendy.getElevatorHeight())<.25){
-      System.out.println("ended");
+    if (Math.abs(e_Extendy.elevatorPID.calculate(e_Extendy.extendyPosition.getDistance(), 20)) < .005){
       return true;
     }
     else{

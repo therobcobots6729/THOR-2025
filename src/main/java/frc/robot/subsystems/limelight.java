@@ -1,105 +1,77 @@
 package frc.robot.subsystems;
 
-import org.photonvision.PhotonCamera;
-
-import org.photonvision.targeting.PhotonTrackedTarget;
-
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-// Capitalized class name (follows Java conventions)
+public class limelight extends SubsystemBase { // Capitalized class name (follows Java conventions)
   
- 
+  public static double x1;
+public double y1;
+public static double reefd;
+public double processord;
+  public static double ID1;
+  public static double stationd;
+  public static double x2;
+public double y2;
+public double ID2;
 
-public class limelight extends SubsystemBase {
-  private Swerve s_Swerve;
- private PhotonCamera reefC;
- public PhotonTrackedTarget results;
-  public int tid1;
-  public double tid2;
-  public double reefd, stationd, processord;
-  public double x1, y1, ID1, x2, y2, ID2;
+  private final NetworkTable table1 = NetworkTableInstance.getDefault().getTable("limelight1"); // Forward limelight
+  private final NetworkTableEntry tx1 = table1.getEntry("tx");
+  private final NetworkTableEntry ty1 = table1.getEntry("ty");
+  private final NetworkTableEntry tid1 = table1.getEntry("tid");
+
+  private final NetworkTable table2 = NetworkTableInstance.getDefault().getTable("limelight2"); // Backward limelight
+  private final NetworkTableEntry tx2 = table2.getEntry("tx");
+  private final NetworkTableEntry ty2 = table2.getEntry("ty");
+  private final NetworkTableEntry tid2 = table2.getEntry("tid");
+
+  private final double limelight1MountAngleDegrees = 0; // Change as needed
+  private final double limelight1LensHeightInches = 18; // Change as needed
+  private final double limelight2MountAngleDegrees = 0; // Change as needed
+  private final double limelight2LensHeightInches = 24; // Avoid zero to prevent division errors
 
   /** Constructor */
-  public limelight(Swerve s_Swerve) {
-    reefC = new PhotonCamera("reef");
-    this.s_Swerve=  s_Swerve;
-   
+  public limelight() {}
+
+  /** Gets the detected AprilTag ID from the forward Limelight */
+  public  double getTagID() {
+      return tid1.getDouble(0.0);
   }
 
- 
   /** This method runs periodically */
-
   @Override
-public void periodic() {
-    // Fetch new botpose values every cycle
-    var result = reefC.getLatestResult();  // Get latest PhotonVision result
-    var results = result.getBestTarget();  // Get best detected target
-    
-    if (result.hasTargets() && results != null) {  // Ensure a target is detected
-        tid1 = results.getFiducialId();  // Get the AprilTag ID
-    } else {
-        tid1 = 0;  // Default value if no target is found
-    }
-  
-  
-  NetworkTable table = NetworkTableInstance.getDefault().getTable("photonvision").getSubTable("reef");
-  x1 =  table.getEntry("targetPixelsX").getDouble(0);
-  y1 =  table.getEntry("targetPixelsY").getDouble(0);
+  public void periodic() {
+      // Update values every cycle
+      double targetOffsetAngle_Vertical1 = ty1.getDouble(0.0);
+      double targetOffsetAngle_Vertical2 = ty2.getDouble(0.0);
 
-   
-    SmartDashboard.putNumber("Reef Distance", reefd);
-   
-    SmartDashboard.putNumber("Tag ID 1", tid1);
-    
-    SmartDashboard.putNumber("right Reef X", x1);
-    
-    SmartDashboard.putNumber("right Reef Y", y1);
-    
-    
-      
-      boolean isConnected = NetworkTableInstance.getDefault().isConnected();
-SmartDashboard.putBoolean("NetworkTables Connected", isConnected);
-  }
- /** Gets the detected AprilTag ID from the forward Limelight */
- public double getTagID() {
-    
-  return tid1;
-}
+      double reefHeightInches = 12.125;
+      double angleToReefDegrees = limelight1MountAngleDegrees + targetOffsetAngle_Vertical1;
+      double angleToReefRadians = Math.toRadians(angleToReefDegrees);
+      reefd = (reefHeightInches - limelight1LensHeightInches) / Math.tan(angleToReefRadians);
 
-public int getTargetYaw(){
-  if(getTagID()==7.0||  getTagID() == 18.0 ){
-    return 0;
-  }
-  else if(getTagID() == 17.0  ||  getTagID() == 8.0 ){
-    return 60;
-  }
-  else if(getTagID() == 11.0  ||  getTagID() == 20.0){
-    return -120;
-  }
-  else if(getTagID() == 6.0 ||  getTagID() == 19.0){
-    return -60;
-  }
-  else if(getTagID() == 9.0  ||  getTagID() == 22.0 ){
-    return 120;
-  }
-  else if(getTagID() == 10.0 ||  getTagID() == 21.0){
-    if (s_Swerve.getPose().getRotation().getDegrees() >=0){
-      return 180;}
-      else {return -180;}
-  }
-  
-  else if (getTagID() == 2.0  ||  getTagID() == 12.0 ){
-    return 55;
-  }
-  else if (getTagID() == 1.0  ||  getTagID() == 13.0  ){
-   return  -55;
-  }
-  else{
-    return 0;
-  }
-}
+      double stationHeightInches = 58.5;
+      double angleToStationDegrees = limelight2MountAngleDegrees + targetOffsetAngle_Vertical2;
+      double angleToStationRadians = Math.toRadians(angleToStationDegrees);
+      stationd = (stationHeightInches - limelight2LensHeightInches) / Math.tan(angleToStationRadians);
 
+      double processorHeightInches = 51.125;
+      double angleToProcessorDegrees = limelight1MountAngleDegrees + targetOffsetAngle_Vertical1;
+      double angleToProcessorRadians = Math.toRadians(angleToProcessorDegrees);
+      processord = (processorHeightInches - limelight1LensHeightInches) / Math.tan(angleToProcessorRadians);
+
+      // Read values periodically
+      x1 = tx1.getDouble(0.0);
+      y1 = ty1.getDouble(0.0);
+      ID1 = tid1.getDouble(0.0);
+      x2 = tx2.getDouble(0.0);
+      y2 = ty2.getDouble(0.0);
+      ID2 = tid2.getDouble(0.0);
+      SmartDashboard.putNumber("reefx", x1);
+      //SmartDashboard.putNumber("reefx", x2);
+    
+  }
 }

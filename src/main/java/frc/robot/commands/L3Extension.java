@@ -58,7 +58,7 @@ public class L3Extension extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(14.88 -e_Extendy.elevatorHeight) < .25){
+    if (Math.abs(e_Extendy.elevatorPID.calculate(e_Extendy.extendyPosition.getDistance(), 20)) < .005){
       return true;
     }
     else{

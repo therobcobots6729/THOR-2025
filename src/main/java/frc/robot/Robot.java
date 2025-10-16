@@ -7,8 +7,6 @@ package frc.robot;
 //import dev.doglog.DogLog;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.ScoringLog;
@@ -27,9 +25,6 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private ScoringLog scoringLog = new ScoringLog(null);
   private RobotContainer m_robotContainer;
-    public static final Field2d field = new Field2d();
-    public static final SendableChooser<String> fieldSelector = new SendableChooser<>();
-
 
   /**
    * This function is run when the robot is first started up and should be used for any

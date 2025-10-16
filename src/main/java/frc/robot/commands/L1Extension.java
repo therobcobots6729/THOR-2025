@@ -41,15 +41,15 @@ public class L1Extension extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    e_Extendy.spoolMotor.setVoltage(0);
-    e_Extendy.spool2.setVoltage(0);
+    e_Extendy.spoolMotor.setVoltage(-e_Extendy.elevatorFeedForward.calculate(0,0));
+    e_Extendy.spool2.setVoltage(e_Extendy.elevatorFeedForward.calculate(0,0));
 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(0-e_Extendy.getElevatorHeight())<2){
+    if (Math.abs(e_Extendy.elevatorPID.calculate(e_Extendy.extendyPosition.getDistance(), 20)) < .005){
       return true;
     }
     else{

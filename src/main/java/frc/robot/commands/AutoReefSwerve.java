@@ -24,13 +24,10 @@ public class AutoReefSwerve extends Command {
   private ScoringLog sLog;
   private extendy e_Extendy;
   private limelight l_Limelight;
-  double dAdj, xAdj, yawAdj;
   
   public AutoReefSwerve(Swerve s_Swerve, extendy e_Extendy, ScoringLog sLog, limelight l_Limelight) {
     this.s_Swerve = s_Swerve;
     this.e_Extendy = e_Extendy;
-    this.l_Limelight = l_Limelight;
-    this.sLog = sLog;
     addRequirements(s_Swerve, e_Extendy, sLog, l_Limelight);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -47,22 +44,25 @@ public class AutoReefSwerve extends Command {
         /* Get Values, Deadband */
    
     /* Drive */ // change 4 and 7 before a real match*/
- 
-
-         yawAdj = (l_Limelight.getTargetYaw() - s_Swerve.getPose().getRotation().getDegrees());
-         xAdj = -(246.6-l_Limelight.x1);  
-         dAdj = (68 - l_Limelight.y1);    
+        if ((limelight.ID1>=6 && limelight.ID1<= 11||limelight.ID1 >= 17.0 && limelight.ID1 <= 22.0 )  
+        && (Math.abs(limelight.x1) > 1   || limelight.reefd > .5) && sLog.isSlotAvailable(l_Limelight.getTagID(), e_Extendy.getElevatorHeight())) {
+               
          // contains all reef IDs
         //(limeligt.ID == 1.0 || limelight.ID == 2.0 || limelight.ID == 12.0 || limelight.ID == 13.0)     // all source IDs
           s_Swerve.drive(
-            new Translation2d(-dAdj*.003,-xAdj*.0007)
-            .times(Constants.Swerve.maxSpeed  ), 
-            yawAdj *.2, 
+            new Translation2d(limelight.reefd,0)
+            .times(Constants.Swerve.maxSpeed * .025), 
+            -limelight.x1  *.1, 
             false, 
             true);
-         
+         } 
         
-     
+         else {
+          s_Swerve.drive(
+            new Translation2d(0,0),
+            0, 
+            false, 
+            true);}
   }
 
   // Called once the command ends or is interrupted.
@@ -78,8 +78,13 @@ public class AutoReefSwerve extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-   
-      return false;}
+    if (Math.abs(limelight.x1) > 1 || Math.abs(limelight.reefd) > .5    || s_Swerve.mSwerveMods[0].getState().speedMetersPerSecond != 0){
+      return false;
     
+    }
+    
+    else{
+      return true;
+    }
   }
-
+}

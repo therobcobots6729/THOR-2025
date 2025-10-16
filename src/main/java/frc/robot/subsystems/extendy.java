@@ -50,10 +50,9 @@ public class extendy extends SubsystemBase {
     extendyPosition = new Encoder(4,3, false, Encoder.EncodingType.k2X);
     extendyPosition.setDistancePerPulse(-1.79*Math.PI/2048);
     elevatorPID = new PIDController(2.5, 0, 0);
-    downPID = new PIDController(.55, 0, 0);
+    downPID = new PIDController(.25, 0, 0);
     elevatorFeedForward = new ElevatorFeedforward(0, 0.30, 37.92, 0.01);
-    spoolMotor.setNeutralMode(NeutralModeValue.Coast);
-    spool2.setNeutralMode(NeutralModeValue.Coast);
+    spoolMotor.setNeutralMode(NeutralModeValue.Brake);
   }
  
   public  double getElevatorHeight(){
