@@ -1,0 +1,196 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "start right mid"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Right Reef Drive"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Flip Forward"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L4 Extension"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.25
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Score"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Retract Elevator"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "right reef to coral 1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Coral Station Drive"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "right coral to reef 1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Right Reef Drive"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Flip Forward"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L4 Extension"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.25
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Score"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Retract Elevator"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "right reef to coral 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Coral Station Drive"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "right coral to reef 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Coral Reef Drive"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Flip Forward"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L4 Extension"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.25
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Score"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Retract Elevator"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

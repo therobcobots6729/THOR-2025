@@ -1,0 +1,61 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "Flip Back"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "start right mid"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L4 Extension"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "path 1"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Retract Elevator"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
